@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global look and feel 🌊 */
+html, body, #root {
+  @apply h-full bg-background text-gray-800 font-sans;
+}
+
+/* Optional: smoother animations and scroll behavior */
+* {
+  @apply transition-colors duration-300;
+  scroll-behavior: smooth;
+}
