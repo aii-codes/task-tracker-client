@@ -1,70 +1,95 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
-function TaskForm({ onSubmit, selectedTask }) {
+function TaskForm({ onSubmit }) {
+  const { darkMode } = useTheme();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("normal");
+  const [priority, setPriority] = useState("Normal");
   const [dueDate, setDueDate] = useState("");
-
-  useEffect(() => {
-    if (selectedTask) {
-      setTitle(selectedTask.title);
-      setDescription(selectedTask.description);
-      setPriority(selectedTask.priority);
-      setDueDate(selectedTask.due_date ? selectedTask.due_date.slice(0, 10) : "");
-    } else {
-      setTitle("");
-      setDescription("");
-      setPriority("normal");
-      setDueDate("");
-    }
-  }, [selectedTask]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ title, description, priority, due_date: dueDate });
+    
+    // ✅ FIX: Ensure date is sent in local timezone format
+    // Convert the date string to YYYY-MM-DD format explicitly
+    const normalizedDate = dueDate ? dueDate : null;
+    
+    onSubmit({ 
+      title, 
+      description, 
+      priority, 
+      due_date: normalizedDate 
+    });
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-gray-50 p-4 rounded-lg shadow-md mb-6 space-y-3"
+      className={`p-4 rounded-lg shadow-md space-y-3 transition-colors duration-300 ${
+        darkMode ? "bg-gray-800" : "bg-gray-50"
+      }`}
     >
       <input
         type="text"
         placeholder="Task Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full border p-2 rounded"
+        className={`w-full border p-2 rounded transition-colors duration-300 ${
+          darkMode
+            ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400"
+            : "bg-white border-gray-300 text-gray-900"
+        }`}
         required
       />
+
       <textarea
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        className="w-full border p-2 rounded"
+        rows="8"
+        className={`w-full border p-2 rounded transition-colors duration-300 resize-none ${
+          darkMode
+            ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400"
+            : "bg-white border-gray-300 text-gray-900"
+        }`}
       ></textarea>
-      <div className="flex justify-between items-center">
+
+      <div className="flex justify-between items-center gap-2">
         <select
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
-          className="border p-2 rounded"
+          className={`border p-2 rounded transition-colors duration-300 ${
+            darkMode
+              ? "bg-gray-700 border-gray-600 text-gray-100"
+              : "bg-white border-gray-300 text-gray-900"
+          }`}
         >
-          <option value="urgent">Urgent</option>
-          <option value="normal">Normal</option>
-          <option value="low">Low</option>
+          <option value="High">High</option>
+          <option value="Normal">Normal</option>
+          <option value="Low">Low</option>
         </select>
+
         <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="border p-2 rounded"
+          className={`border p-2 rounded transition-colors duration-300 ${
+            darkMode
+              ? "bg-gray-700 border-gray-600 text-gray-100"
+              : "bg-white border-gray-300 text-gray-900"
+          }`}
         />
+
         <button
           type="submit"
-          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-all duration-300"
+          className={`px-4 py-2 rounded-lg text-white font-medium transition-all duration-300 ${
+            darkMode
+              ? "bg-blue-600 hover:bg-blue-500"
+              : "bg-primary hover:bg-primary-dark"
+          }`}
         >
-          {selectedTask ? "Update" : "Add"}
+          Add
         </button>
       </div>
     </form>

@@ -2,12 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global look and feel 🌊 */
-html, body, #root {
-  @apply h-full bg-background text-gray-800 font-sans;
+/* 🌤 Base global style (light theme) */
+html,
+body,
+#root {
+  @apply h-full bg-background text-text-light font-sans;
 }
 
-/* Optional: smoother animations and scroll behavior */
+/* 🌙 Dark theme overrides */
+.dark html,
+.dark body,
+.dark #root {
+  @apply bg-background-dark text-text-dark;
+}
+
+/* Smooth transitions + scroll behavior */
 * {
   @apply transition-colors duration-300;
   scroll-behavior: smooth;
