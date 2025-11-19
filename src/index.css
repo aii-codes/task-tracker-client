@@ -6,7 +6,7 @@
 html,
 body,
 #root {
-  @apply h-full bg-background text-text-light font-sans;
+    @apply min-h-full bg-background text-text-light font-sans;
 }
 
 /* 🌙 Dark theme overrides */
@@ -18,6 +18,16 @@ body,
 
 /* Smooth transitions + scroll behavior */
 * {
-  @apply transition-colors duration-300;
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
+}
+
+/* Apply animations only to elements that need them */
+button,
+input,
+select,
+textarea,
+div,
+nav,
+section {
+    @apply transition-colors duration-300;
 }
