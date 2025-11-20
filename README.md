@@ -34,11 +34,3 @@ Live App:
 
 Backend API:  
 👉 https://task-tracker-backend-8yob.onrender.com
-
----
-
-## 🧪 Run Locally
-
-```bash
-npm install
-npm run dev
